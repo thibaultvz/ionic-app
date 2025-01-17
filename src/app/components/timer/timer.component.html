@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Chronomètre</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="timer-container">
+    <h1>{{ timeLeft }}s</h1>
+    <ion-button expand="block" (click)="startTimer()">Démarrer</ion-button>
+    <ion-button expand="block" color="warning" (click)="pauseTimer()">Pause</ion-button>
+    <ion-button expand="block" color="danger" (click)="resetTimer()">Réinitialiser</ion-button>
+  </div>
+</ion-content>

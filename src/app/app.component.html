@@ -2,10 +2,30 @@
   <!-- Header -->
   <app-header></app-header>
 
-  <!-- Main Content -->
-  <ion-content>
-    <app-todo-item [item]="todoItem"></app-todo-item>
-  </ion-content>
+  <!-- Tabs Navigation -->
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="dashboard" routerLink="/dashboard">
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Dashboard</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="new-exercise" routerLink="/new-exercise">
+        <ion-icon name="fitness-outline"></ion-icon>
+        <ion-label>Nouvel Exercice</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="statistics" routerLink="/statistics">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <ion-label>Statistiques</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="history" routerLink="/history">
+        <ion-icon name="time-outline"></ion-icon>
+        <ion-label>Historique</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 
   <!-- Footer -->
   <app-footer></app-footer>

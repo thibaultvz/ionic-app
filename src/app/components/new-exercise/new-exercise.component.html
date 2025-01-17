@@ -1,0 +1,46 @@
+<ion-content>
+  <div class="go-back-container">
+    <ion-button fill="clear" (click)="goBack()">
+      <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+      Retour
+    </ion-button>
+  </div>
+
+
+<ion-content>
+  <!-- Formulaire de création d'un nouvel exercice -->
+  <form>
+    <ion-item>
+      <ion-label position="stacked">Nom de l'exercice</ion-label>
+      <ion-input [(ngModel)]="newWorkoutName" name="workoutName" placeholder="Ex: Push-ups"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Durée par défaut (min)</ion-label>
+      <ion-input type="number" [(ngModel)]="newWorkoutDuration" name="workoutDuration"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" (click)="addWorkout()">Ajouter l'exercice</ion-button>
+  </form>
+
+  <hr />
+
+  <!-- Sélection d'un exercice existant -->
+<form>
+  <ion-item>
+    <ion-label>Exercice</ion-label>
+    <ion-select [(ngModel)]="selectedWorkoutId" name="selectedWorkoutId">
+      <ion-select-option *ngFor="let workout of workouts" [value]="workout.id">
+        {{ workout.name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Durée (min)</ion-label>
+    <ion-input type="number" [(ngModel)]="duration" name="duration"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="startExercise()">Démarrer l'exercice</ion-button>
+</form>
+

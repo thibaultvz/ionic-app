@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Statistiques</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Progression hebdomadaire</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Durée totale: {{ totalDuration }} min</p>
+      <p>Durée moyenne: {{ averageDuration }} min</p>
+      <canvas id="statsChart"></canvas>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

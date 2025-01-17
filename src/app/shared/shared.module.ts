@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from '../components/header/header.component';
 import { FooterComponent } from '../components/footer/footer.component';
+import { TimerComponent } from '../components/timer/timer.component';
 
 @NgModule({
   imports: [
@@ -11,11 +12,13 @@ import { FooterComponent } from '../components/footer/footer.component';
   ],
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    TimerComponent
   ],
   exports: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    TimerComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

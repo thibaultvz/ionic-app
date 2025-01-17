@@ -1,33 +1,44 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { AppComponent } from './app.component';
-import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { RouterModule, Routes } from '@angular/router';
-import { SharedModule } from './shared/shared.module';  // Ajoutez l'importation de SharedModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Ajoutez FormsModule ici
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NewExerciseComponent } from './components/new-exercise/new-exercise.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { SharedModule } from './shared/shared.module';
+import { HistoryComponent } from './components/history/history.component';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: TodoItemComponent, // Affiche TodoItemComponent quand la route est vide
-  },
-  {
-    path: 'todo',
-    component: TodoItemComponent, // Autre exemple si vous avez d'autres pages
-  },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'new-exercise', component: NewExerciseComponent },
+  { path: 'statistics', component: StatisticsComponent },
+  { path: 'history', component: HistoryComponent },
+
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoItemComponent,  // Déclarez votre composant ici
+    DashboardComponent, // Déclarez vos composants ici
+    NewExerciseComponent,
+    StatisticsComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),  // Important pour utiliser les composants Ionic
-    RouterModule.forRoot(routes),  // Ajoutez cette ligne pour activer les routes
-    SharedModule,  // Ajoutez SharedModule pour pouvoir utiliser HeaderComponent et FooterComponent
+    ReactiveFormsModule,
+    FormsModule,
+    SharedModule,
+    IonicModule.forRoot(), // Nécessaire pour utiliser les composants Ionic
+    RouterModule.forRoot(routes), // Nécessaire pour activer les routes
+    IonicStorageModule.forRoot()
+
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Ajoutez ce schema pour éviter les erreurs de composants
   bootstrap: [AppComponent],
 })
 export class AppModule {}
