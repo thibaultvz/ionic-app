@@ -3,42 +3,64 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Ajoutez FormsModule ici
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { NewExerciseComponent } from './components/new-exercise/new-exercise.component';
-import { StatisticsComponent } from './components/statistics/statistics.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
-import { HistoryComponent } from './components/history/history.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment'; // Importez l'environnement
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'new-exercise', component: NewExerciseComponent },
-  { path: 'statistics', component: StatisticsComponent },
-  { path: 'history', component: HistoryComponent },
-
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./components/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
+  },
+  {
+    path: 'new-exercise',
+    loadChildren: () =>
+      import('./components/new-exercise/new-exercise.module').then(
+        (m) => m.NewExerciseModule
+      ),
+  },
+  {
+    path: 'statistics',
+    loadChildren: () =>
+      import('./components/statistics/statistics.module').then(
+        (m) => m.StatisticsModule
+      ),
+  },
+  {
+    path: 'history',
+    loadChildren: () =>
+      import('./components/history/history.module').then(
+        (m) => m.HistoryModule
+      ),
+  },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent, // Déclarez vos composants ici
-    NewExerciseComponent,
-    StatisticsComponent,
-    HistoryComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    IonicModule.forRoot(), // Nécessaire pour utiliser les composants Ionic
-    RouterModule.forRoot(routes), // Nécessaire pour activer les routes
-    IonicStorageModule.forRoot()
-
+    IonicModule.forRoot(), // Nécessaire pour Ionic
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: 'preloadAllModules', // Ajout de preloading
+    }),
+    IonicStorageModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000', // Stratégie PWA
+    }),
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Ajoutez ce schema pour éviter les erreurs de composants
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Nécessaire pour éviter les erreurs des composants
   bootstrap: [AppComponent],
 })
 export class AppModule {}

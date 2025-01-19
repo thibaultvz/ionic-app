@@ -7,7 +7,7 @@ import { ExerciseService } from '../../services/exercise.service';
   styleUrls: ['./history.component.scss'],
 })
 export class HistoryComponent implements OnInit {
-  sessions: { date: string; workoutId: number; duration: number }[] = [];
+  sessions: { id: number; workoutId: number; duration: number; date: string }[] = [];
 
   constructor(private exerciseService: ExerciseService) {}
 

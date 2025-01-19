@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkoutService } from '../../services/workout.service';
+import { ExerciseService } from '../../services/exercise.service';
 import { Location } from '@angular/common';
-
 
 @Component({
   selector: 'app-new-exercise',
@@ -10,29 +10,30 @@ import { Location } from '@angular/common';
 })
 export class NewExerciseComponent implements OnInit {
   workouts: { id: number; name: string; duration: number }[] = [];
-  newWorkoutName: string = ''; // Initialisez correctement les variables
+  newWorkoutName: string = '';
   newWorkoutDuration: number | null = null;
   selectedWorkoutId: number | null = null;
   duration: number = 0;
 
-  constructor(private workoutService: WorkoutService,private location: Location) {}
+  constructor(
+    private workoutService: WorkoutService,
+    private exerciseService: ExerciseService,
+    private location: Location
+  ) {}
 
-  ngOnInit() {
-    this.workouts = this.workoutService.getWorkouts();
+  async ngOnInit() {
+    this.workouts = await this.workoutService.getWorkouts();
   }
+
   goBack() {
     this.location.back();
   }
-  addWorkout() {
-    console.log('Nom:', this.newWorkoutName); // Debug pour vérifier les données
-    console.log('Durée:', this.newWorkoutDuration);
 
-    const duration = Number(this.newWorkoutDuration);
-
-    if (this.newWorkoutName.trim() && !isNaN(duration) && duration > 0) {
-      this.workoutService.addWorkout(this.newWorkoutName, duration);
-      this.workouts = this.workoutService.getWorkouts(); // Rafraîchir la liste
-      this.newWorkoutName = ''; // Réinitialiser les champs
+  async addWorkout() {
+    if (this.newWorkoutName.trim() && this.newWorkoutDuration && this.newWorkoutDuration > 0) {
+      await this.workoutService.addWorkout(this.newWorkoutName, this.newWorkoutDuration);
+      this.workouts = await this.workoutService.getWorkouts();
+      this.newWorkoutName = '';
       this.newWorkoutDuration = null;
       alert('Exercice ajouté avec succès!');
     } else {
@@ -40,11 +41,14 @@ export class NewExerciseComponent implements OnInit {
     }
   }
 
-
-  // Démarrer une session d'exercice
-  startExercise() {
+  async startExercise() {
     if (this.selectedWorkoutId && this.duration > 0) {
-      console.log(`Exercice: ${this.selectedWorkoutId}, Durée: ${this.duration}`);
+      const session = {
+        date: new Date().toISOString(),
+        workoutId: this.selectedWorkoutId,
+        duration: this.duration,
+      };
+      await this.exerciseService.addSession(session);
       alert('Exercice démarré avec succès!');
     } else {
       alert('Veuillez sélectionner un exercice et entrer une durée valide.');

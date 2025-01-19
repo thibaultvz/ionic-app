@@ -8,8 +8,9 @@
   <ion-list>
     <ion-item *ngFor="let session of sessions">
       <ion-label>
-        Exercice ID: {{ session.workoutId }} - {{ session.duration }} min
-        <p>Date : {{ session.date }}</p>
+        <h2>Exercice : {{ session.workoutId }}</h2>
+        <p>Durée : {{ session.duration }} minutes</p>
+        <p>Date : {{ session.date | date: 'short' }}</p>
       </ion-label>
     </ion-item>
   </ion-list>

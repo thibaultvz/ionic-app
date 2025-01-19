@@ -16,19 +16,16 @@ export class ExerciseService {
     this._storage = storage;
   }
 
-  // Add a session
   async addSession(session: { date: string; workoutId: number; duration: number }) {
     const sessions = (await this._storage?.get('sessions')) || [];
     sessions.push(session);
     await this._storage?.set('sessions', sessions);
   }
 
-  // Get all sessions
   async getSessions() {
     return (await this._storage?.get('sessions')) || [];
   }
 
-  // Clear all sessions
   async clearSessions() {
     await this._storage?.remove('sessions');
   }

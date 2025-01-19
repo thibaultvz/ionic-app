@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Statistiques</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -7,12 +12,26 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Progression hebdomadaire</ion-card-title>
+      <ion-card-title>Statistiques Générales</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>Durée totale: {{ totalDuration }} min</p>
-      <p>Durée moyenne: {{ averageDuration }} min</p>
+      <p>Durée totale: {{ totalDuration }} minutes</p>
+      <p>Durée moyenne: {{ averageDuration | number: '1.1-1' }} minutes</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="sessions.length > 0">
+    <ion-card-header>
+      <ion-card-title>Progression</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
       <canvas id="statsChart"></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="sessions.length === 0">
+    <ion-card-content>
+      <p>Aucune session d'entraînement trouvée.</p>
     </ion-card-content>
   </ion-card>
 </ion-content>
