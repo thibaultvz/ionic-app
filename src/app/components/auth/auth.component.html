@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Authentification Biométrique</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="auth-container">
+    <ion-button expand="block" (click)="authenticate()">Authentifiez-vous</ion-button>
+
+    <div *ngIf="isAuthenticated">
+      <ion-card>
+        <ion-card-content>
+          <h2>Bienvenue ! Vous êtes authentifié.</h2>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
