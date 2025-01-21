@@ -4,7 +4,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <ion-button fill="clear" (click)="goBack()">
+    <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+    Retour
+  </ion-button>
   <div class="timer-container">
     <h1>{{ timeLeft }}s</h1>
     <ion-button expand="block" (click)="startTimer()">Démarrer</ion-button>

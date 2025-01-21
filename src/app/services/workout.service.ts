@@ -15,7 +15,7 @@ export class WorkoutService {
   async init() {
     const storage = await this.storage.create();
     this._storage = storage;
-    this.workouts = (await this._storage?.get('workouts')) || [];
+    this.workouts = (await this._storage.get('workouts')) || [];
   }
 
   async addWorkout(name: string, duration: number) {

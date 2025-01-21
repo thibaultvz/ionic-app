@@ -6,12 +6,12 @@ import { Injectable } from '@angular/core';
 export class ProgressService {
   constructor() {}
 
-  // Calculate total duration of workouts
+  // Calculate de la durée totale
   calculateTotalDuration(sessions: { date: string; workoutId: number; duration: number }[]) {
     return sessions.reduce((total, session) => total + session.duration, 0);
   }
 
-  // Calculate progression over time
+  // Calcule de la progression
   calculateWeeklyProgress(sessions: { date: string; workoutId: number; duration: number }[]) {
     const progress = new Map<string, number>();
 

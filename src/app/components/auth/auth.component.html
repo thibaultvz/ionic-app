@@ -1,19 +1,78 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Authentification Biométrique</ion-title>
+    <ion-title>Connexion</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="auth-container">
-    <ion-button expand="block" (click)="authenticate()">Authentifiez-vous</ion-button>
+    <form [formGroup]="authForm" (ngSubmit)="login()">
+      <!-- Champ Nom d'Utilisateur -->
+      <ion-item>
+        <ion-label position="floating">Nom d'utilisateur</ion-label>
+        <ion-input
+          formControlName="username"
+          type="text"
+          [class.invalid]="
+            authForm.get('username')?.invalid &&
+            (authForm.get('username')?.dirty ||
+              authForm.get('username')?.touched)
+          "
+        ></ion-input>
+      </ion-item>
+      <!-- Message d'erreur pour Nom d'Utilisateur -->
+      <div
+        *ngIf="
+          authForm.get('username')?.invalid &&
+          (authForm.get('username')?.dirty ||
+            authForm.get('username')?.touched)
+        "
+        class="error-message"
+      >
+        <small *ngIf="authForm.get('username')?.errors?.['required']">
+          Le nom d'utilisateur est requis.
+        </small>
+      </div>
 
-    <div *ngIf="isAuthenticated">
-      <ion-card>
-        <ion-card-content>
-          <h2>Bienvenue ! Vous êtes authentifié.</h2>
-        </ion-card-content>
-      </ion-card>
-    </div>
+      <!-- Champ Mot de Passe -->
+      <ion-item>
+        <ion-label position="floating">Mot de passe</ion-label>
+        <ion-input
+          formControlName="password"
+          type="password"
+          [class.invalid]="
+            authForm.get('password')?.invalid &&
+            (authForm.get('password')?.dirty ||
+              authForm.get('password')?.touched)
+          "
+        ></ion-input>
+      </ion-item>
+      <!-- Message d'erreur pour Mot de Passe -->
+      <div
+        *ngIf="
+          authForm.get('password')?.invalid &&
+          (authForm.get('password')?.dirty ||
+            authForm.get('password')?.touched)
+        "
+        class="error-message"
+      >
+        <small *ngIf="authForm.get('password')?.errors?.['required']">
+          Le mot de passe est requis.
+        </small>
+        <small *ngIf="authForm.get('password')?.errors?.['minlength']">
+          Le mot de passe doit contenir au moins 6 caractères.
+        </small>
+      </div>
+
+      <!-- Bouton de Connexion -->
+      <ion-button expand="block" type="submit" [disabled]="authForm.invalid">
+        Se Connecter
+      </ion-button>
+
+      <!-- Message d'Erreur Générale -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </form>
   </div>
 </ion-content>

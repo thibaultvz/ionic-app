@@ -30,8 +30,15 @@ export class NewExerciseComponent implements OnInit {
   }
 
   async addWorkout() {
-    if (this.newWorkoutName.trim() && this.newWorkoutDuration && this.newWorkoutDuration > 0) {
-      await this.workoutService.addWorkout(this.newWorkoutName, this.newWorkoutDuration);
+    if (
+      this.newWorkoutName.trim() &&
+      this.newWorkoutDuration &&
+      this.newWorkoutDuration > 0
+    ) {
+      await this.workoutService.addWorkout(
+        this.newWorkoutName,
+        this.newWorkoutDuration
+      );
       this.workouts = await this.workoutService.getWorkouts();
       this.newWorkoutName = '';
       this.newWorkoutDuration = null;
@@ -52,6 +59,17 @@ export class NewExerciseComponent implements OnInit {
       alert('Exercice démarré avec succès!');
     } else {
       alert('Veuillez sélectionner un exercice et entrer une durée valide.');
+    }
+  }
+
+  onWorkoutSelect(event: any) {
+    const selectedWorkout = this.workouts.find(
+      (workout) => workout.id === this.selectedWorkoutId
+    );
+    if (selectedWorkout) {
+      this.duration = selectedWorkout.duration;
+    } else {
+      this.duration = 0;
     }
   }
 }

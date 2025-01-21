@@ -1,35 +1,53 @@
-  <!-- Bouton Retour -->
- <ion-content>
-  <h1>Test d'affichage du bouton</h1>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nouvel Exercice</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
   <ion-button fill="clear" (click)="goBack()">
     <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
     Retour
   </ion-button>
 
-
-
   <!-- Formulaire de création d'un nouvel exercice -->
-  <form>
+  <form (ngSubmit)="addWorkout()">
     <ion-item>
       <ion-label position="stacked">Nom de l'exercice</ion-label>
-      <ion-input [(ngModel)]="newWorkoutName" name="workoutName" placeholder="Ex: Push-ups"></ion-input>
+      <ion-input
+        [(ngModel)]="newWorkoutName"
+        name="workoutName"
+        placeholder="Ex: Push-ups"
+        required
+      ></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Durée par défaut (min)</ion-label>
-      <ion-input type="number" [(ngModel)]="newWorkoutDuration" name="workoutDuration"></ion-input>
+      <ion-input
+        type="number"
+        [(ngModel)]="newWorkoutDuration"
+        name="workoutDuration"
+        min="1"
+        required
+      ></ion-input>
     </ion-item>
 
-    <ion-button expand="block" (click)="addWorkout()">Ajouter l'exercice</ion-button>
+    <ion-button expand="block" type="submit">Ajouter l'exercice</ion-button>
   </form>
 
   <hr />
 
   <!-- Sélection d'un exercice existant -->
-  <form>
+  <form (ngSubmit)="startExercise()">
     <ion-item>
       <ion-label>Exercice</ion-label>
-      <ion-select [(ngModel)]="selectedWorkoutId" name="selectedWorkoutId">
+      <ion-select
+        [(ngModel)]="selectedWorkoutId"
+        name="selectedWorkoutId"
+        (ionChange)="onWorkoutSelect($event)"
+        required
+      >
         <ion-select-option *ngFor="let workout of workouts" [value]="workout.id">
           {{ workout.name }}
         </ion-select-option>
@@ -38,9 +56,15 @@
 
     <ion-item>
       <ion-label>Durée (min)</ion-label>
-      <ion-input type="number" [(ngModel)]="duration" name="duration"></ion-input>
+      <ion-input
+        type="number"
+        [(ngModel)]="duration"
+        name="duration"
+        min="1"
+        required
+      ></ion-input>
     </ion-item>
 
-    <ion-button expand="block" (click)="startExercise()">Démarrer l'exercice</ion-button>
+    <ion-button expand="block" type="submit">Démarrer l'exercice</ion-button>
   </form>
 </ion-content>

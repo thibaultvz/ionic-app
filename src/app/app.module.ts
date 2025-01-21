@@ -2,13 +2,16 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { AppComponent } from './app.component';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { AuthInterceptor } from './services/auth.interceptor';
+import { AuthGuard } from './services/auth.gard';
+import { Routes } from '@angular/router';
 
 const routes: Routes = [
   {
@@ -22,6 +25,7 @@ const routes: Routes = [
       import('./components/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
+    canActivate: [AuthGuard], // Protection de la route
   },
   {
     path: 'new-exercise',
@@ -29,6 +33,7 @@ const routes: Routes = [
       import('./components/new-exercise/new-exercise.module').then(
         (m) => m.NewExerciseModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'statistics',
@@ -36,6 +41,7 @@ const routes: Routes = [
       import('./components/statistics/statistics.module').then(
         (m) => m.StatisticsModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'history',
@@ -43,9 +49,10 @@ const routes: Routes = [
       import('./components/history/history.module').then(
         (m) => m.HistoryModule
       ),
+    canActivate: [AuthGuard],
   },
-  { path: '', redirectTo: 'auth', pathMatch: 'full' }, // Redirect to the biometric authentication page
-  { path: '**', redirectTo: 'auth' }, // Handle undefined routes
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
+  { path: '**', redirectTo: 'auth' },
 ];
 
 @NgModule({
@@ -56,16 +63,21 @@ const routes: Routes = [
     FormsModule,
     SharedModule,
     IonicModule.forRoot(),
-    RouterModule.forRoot(routes, {
-      preloadingStrategy: PreloadAllModules,
-    }),
+    AppRoutingModule,
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [FingerprintAIO], // Register FingerprintAIO
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })

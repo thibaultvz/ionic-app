@@ -10,7 +10,7 @@ import { NewExerciseComponent } from './new-exercise.component';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule, // Pour gérer les formulaires
+    ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild([{ path: '', component: NewExerciseComponent }]),
   ],
